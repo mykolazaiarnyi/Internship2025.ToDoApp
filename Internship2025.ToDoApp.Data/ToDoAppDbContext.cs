@@ -9,18 +9,9 @@ public class ToDoAppDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
 
-    //public ToDoAppDbContext(DbContextOptions<ToDoAppDbContext> options)
-    //    : base(options)
-    //{
-    //}
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public ToDoAppDbContext(DbContextOptions<ToDoAppDbContext> options)
+        : base(options)
     {
-        const string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ToDoAppDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
-
-        optionsBuilder.UseSqlServer(connectionString);
-
-        base.OnConfiguring(optionsBuilder);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,0 +1,6 @@
+@Internship2025.ToDoApp.Api_HostAddress = http://localhost:5171
+
+GET {{Internship2025.ToDoApp.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
