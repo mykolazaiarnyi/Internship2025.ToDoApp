@@ -1,35 +1,69 @@
-﻿using Internship2025.ToDoApp.Domain.DTOs;
+﻿using Internship2025.ToDoApp.Data;
+using Internship2025.ToDoApp.Data.Models;
+using Internship2025.ToDoApp.Domain.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace Internship2025.ToDoApp.Domain.Services;
 
-public class ToDoItemsService
+public class ToDoItemsService(ToDoAppDbContext context, ICurrentUserService currentUserService)
 {
-    //1. Додати завдання
-    public void AddToDoItem(CreateToDoItemDto itemDto)
+    public async Task AddToDoItemAsync(CreateToDoItemDto itemDto)
     {
+        var item = new ToDoItem
+        {
+            Description = itemDto.Description,
+            DueDate = itemDto.DueDate,
+            IsDone = false,
+            UserId = currentUserService.GetUserId()
+        };
+        await context.ToDoItems.AddAsync(item);
+        await context.SaveChangesAsync();
     }
 
-    //2. Відредагувати(опис + дата)
-    public void EditToDoItem(int id, UpdateToDoItemDto itemDto)
+    public async Task UpdateToDoItemAsync(int id, UpdateToDoItemDto itemDto)
     {
-
+        var item = await context.ToDoItems.FindAsync(id);
+        if (item != null)
+        {
+            item.Description = itemDto.Description;
+            item.DueDate = itemDto.DueDate;
+            await context.SaveChangesAsync();
+        }
     }
 
-    //3. Позначити як виконане
-    public void MarkAsDone(int id)
+    public async Task MarkAsDoneAsync(int id)
     {
-
+        var item = await context.ToDoItems.FindAsync(id);
+        if (item != null && !item.IsDone)
+        {
+            item.IsDone = true;
+            await context.SaveChangesAsync();
+        }
     }
 
-    //4. Видалити
-    public void DeleteToDoItem(int id)
+    public async Task DeleteToDoItemAsync(int id)
     {
+        var item = await context.ToDoItems.FindAsync(id);
+        if (item != null)
+        {
+            context.ToDoItems.Remove(item);
+            await context.SaveChangesAsync();
+        }
     }
 
-    //5. Переглянути список
-    public List<GetToDoItemsListDto> GetToDoItems()
+    public async Task<List<GetToDoItemsListDto>> GetToDoItemsAsync()
     {
-        // Повертає список завдань для користувача
-        return [];
+        var userId = currentUserService.GetUserId();
+
+        return await context.ToDoItems
+            .Where(item => item.UserId == userId)
+            .Select(item => new GetToDoItemsListDto
+            {
+                Id = item.Id,
+                Description = item.Description,
+                IsDone = item.IsDone,
+                DueDate = item.DueDate
+            })
+            .ToListAsync();
     }
 }

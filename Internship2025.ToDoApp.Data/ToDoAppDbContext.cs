@@ -5,6 +5,8 @@ namespace Internship2025.ToDoApp.Data;
 
 public class ToDoAppDbContext : DbContext
 {
+    public const string SeededUserId = "1f0df12a-929d-4a7e-ab5d-56a3c4540f90";
+
     public DbSet<ToDoItem> ToDoItems { get; set; }
 
     public DbSet<User> Users { get; set; }
@@ -30,5 +32,8 @@ public class ToDoAppDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.Name)
             .HasMaxLength(50);
+
+        modelBuilder.Entity<User>()
+            .HasData(new User { Id = SeededUserId, Name = "John Doe" });
     }
 }

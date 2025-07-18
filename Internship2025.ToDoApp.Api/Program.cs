@@ -1,3 +1,6 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Internship2025.ToDoApp.Api.Validators;
 using Internship2025.ToDoApp.Data;
 using Internship2025.ToDoApp.Domain.Services;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +18,10 @@ string connectionString = builder.Configuration.GetConnectionString("ToDoAppDb")
 builder.Services.AddDbContext<ToDoAppDbContext>(opt => opt.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<ToDoItemsService>();
+builder.Services.AddScoped<ICurrentUserService, MockCurrentUserService>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateToDoItemDtoValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 

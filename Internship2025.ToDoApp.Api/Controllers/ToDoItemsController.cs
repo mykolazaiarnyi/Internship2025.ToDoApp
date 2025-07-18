@@ -16,38 +16,37 @@ public class ToDoItemsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddToDoItem(CreateToDoItemDto itemDto)
+    public async Task<IActionResult> AddToDoItem(CreateToDoItemDto itemDto)
     {
-        _toDoItemsService.AddToDoItem(itemDto);
-
+        await _toDoItemsService.AddToDoItemAsync(itemDto);
         return Ok();
     }
 
     [HttpPut("{id}")]
-    public IActionResult EditToDoItem(int id, UpdateToDoItemDto itemDto)
+    public async Task<IActionResult> EditToDoItem(int id, UpdateToDoItemDto itemDto)
     {
-        _toDoItemsService.EditToDoItem(id, itemDto);
+        await _toDoItemsService.UpdateToDoItemAsync(id, itemDto);
         return Ok();
     }
 
     [HttpPut("{id}/status")]
-    public IActionResult MarkAsDone(int id)
+    public async Task<IActionResult> MarkAsDone(int id)
     {
-        _toDoItemsService.MarkAsDone(id);
+        await _toDoItemsService.MarkAsDoneAsync(id);
         return Ok();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteToDoItem(int id)
+    public async Task<IActionResult> DeleteToDoItem(int id)
     {
-        _toDoItemsService.DeleteToDoItem(id);
+        await _toDoItemsService.DeleteToDoItemAsync(id);
         return Ok();
     }
 
     [HttpGet]
-    public ActionResult<List<GetToDoItemsListDto>> GetToDoItems()
+    public async Task<ActionResult<List<GetToDoItemsListDto>>> GetToDoItems()
     {
-        var items = _toDoItemsService.GetToDoItems();
+        var items = await _toDoItemsService.GetToDoItemsAsync();
         return Ok(items);
     }
 }
