@@ -1,6 +1,7 @@
 ﻿using Internship2025.ToDoApp.Data;
 using Internship2025.ToDoApp.Data.Models;
 using Internship2025.ToDoApp.Domain.DTOs;
+using Internship2025.ToDoApp.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Internship2025.ToDoApp.Domain.Services;
@@ -22,33 +23,50 @@ public class ToDoItemsService(ToDoAppDbContext context, ICurrentUserService curr
 
     public async Task UpdateToDoItemAsync(int id, UpdateToDoItemDto itemDto)
     {
-        var item = await context.ToDoItems.FindAsync(id);
-        if (item != null)
+        var item = await context.ToDoItems.FindAsync(id) 
+            ?? throw new ItemNotFoundException();
+        
+        if (item.UserId != currentUserService.GetUserId())
         {
-            item.Description = itemDto.Description;
-            item.DueDate = itemDto.DueDate;
-            await context.SaveChangesAsync();
+            throw new UserDoesNotOwnItemException();
         }
+
+        item.Description = itemDto.Description;
+        item.DueDate = itemDto.DueDate;
+        await context.SaveChangesAsync();
     }
 
     public async Task MarkAsDoneAsync(int id)
     {
-        var item = await context.ToDoItems.FindAsync(id);
-        if (item != null && !item.IsDone)
+        var item = await context.ToDoItems.FindAsync(id) 
+            ?? throw new ItemNotFoundException();
+        
+        if (item.UserId != currentUserService.GetUserId())
         {
-            item.IsDone = true;
-            await context.SaveChangesAsync();
+            throw new UserDoesNotOwnItemException();
         }
+
+        if (item.IsDone)
+        {
+            throw new ItemAlreadyDoneException();
+        }
+
+        item.IsDone = true;
+        await context.SaveChangesAsync();
     }
 
     public async Task DeleteToDoItemAsync(int id)
     {
-        var item = await context.ToDoItems.FindAsync(id);
-        if (item != null)
+        var item = await context.ToDoItems.FindAsync(id) 
+            ?? throw new ItemNotFoundException();
+        
+        if (item.UserId != currentUserService.GetUserId())
         {
-            context.ToDoItems.Remove(item);
-            await context.SaveChangesAsync();
+            throw new UserDoesNotOwnItemException();
         }
+
+        context.ToDoItems.Remove(item);
+        await context.SaveChangesAsync();
     }
 
     public async Task<List<GetToDoItemsListDto>> GetToDoItemsAsync()

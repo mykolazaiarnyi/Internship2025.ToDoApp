@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Internship2025.ToDoApp.Api.Middlewares;
 using Internship2025.ToDoApp.Api.Validators;
 using Internship2025.ToDoApp.Data;
 using Internship2025.ToDoApp.Domain.Services;
@@ -33,6 +34,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
 

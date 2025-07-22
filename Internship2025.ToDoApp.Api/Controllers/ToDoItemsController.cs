@@ -40,7 +40,7 @@ public class ToDoItemsController : ControllerBase
     public async Task<IActionResult> DeleteToDoItem(int id)
     {
         await _toDoItemsService.DeleteToDoItemAsync(id);
-        return Ok();
+        return NoContent();
     }
 
     [HttpGet]
