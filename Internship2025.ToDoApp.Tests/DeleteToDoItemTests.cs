@@ -20,7 +20,7 @@ public class DeleteToDoItemTests
         context.Users.Add(new User
         {
             Id = userId,
-            Name = "Test User"
+            UserName = "Test User"
         });
 
         var item = new ToDoItem

@@ -1,10 +1,8 @@
-﻿namespace Internship2025.ToDoApp.Data.Models;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class User
+namespace Internship2025.ToDoApp.Data.Models;
+
+public class User : IdentityUser
 {
-    public string Id { get; set; }
-
-    public string Name { get; set; }
-
     public ICollection<ToDoItem> ToDoItems { get; set; } = [];
 }

@@ -33,7 +33,7 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = userId, Name = "Test User" });
+        context.Users.Add(new User { Id = userId, UserName = "Test User" });
         await context.SaveChangesAsync();
 
         var dto = new CreateToDoItemDto
@@ -60,7 +60,7 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = userId, Name = "Test User" });
+        context.Users.Add(new User { Id = userId, UserName = "Test User" });
         var item = new ToDoItem
         {
             Description = "Old",
@@ -106,7 +106,7 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = otherUserId, Name = "Other" });
+        context.Users.Add(new User { Id = otherUserId, UserName = "Other" });
         var item = new ToDoItem
         {
             Description = "Old",
@@ -130,7 +130,7 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = userId, Name = "Test User" });
+        context.Users.Add(new User { Id = userId, UserName = "Test User" });
         var item = new ToDoItem
         {
             Description = "Test",
@@ -154,7 +154,7 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = userId, Name = "Test User" });
+        context.Users.Add(new User { Id = userId, UserName = "Test User" });
         var item = new ToDoItem
         {
             Description = "Test",
@@ -177,7 +177,7 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = otherUserId, Name = "Other" });
+        context.Users.Add(new User { Id = otherUserId, UserName = "Other" });
         var item = new ToDoItem
         {
             Description = "Test",
@@ -211,7 +211,7 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = userId, Name = "Test User" });
+        context.Users.Add(new User { Id = userId, UserName = "Test User" });
         var item = new ToDoItem
         {
             Description = "Test",
@@ -235,7 +235,7 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = otherUserId, Name = "Other" });
+        context.Users.Add(new User { Id = otherUserId, UserName = "Other" });
         var item = new ToDoItem
         {
             Description = "Test",
@@ -269,8 +269,8 @@ public class ToDoItemsServiceTests
         var currentUserService = CreateUserService(userId);
         var service = new ToDoItemsService(context, currentUserService.Object);
 
-        context.Users.Add(new User { Id = userId, Name = "Test User" });
-        context.Users.Add(new User { Id = otherUserId, Name = "Other" });
+        context.Users.Add(new User { Id = userId, UserName = "Test User" });
+        context.Users.Add(new User { Id = otherUserId, UserName = "Other" });
 
         context.ToDoItems.Add(new ToDoItem
         {

@@ -1,9 +1,11 @@
 ﻿using Internship2025.ToDoApp.Domain.DTOs;
 using Internship2025.ToDoApp.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Internship2025.ToDoApp.Api.Controllers;
 
+[Authorize]
 [Route("api/to-do-items")]
 [ApiController]
 public class ToDoItemsController : ControllerBase
