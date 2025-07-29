@@ -45,7 +45,6 @@ public class ToDoItemsService(ToDoAppDbContext context, ICurrentUserService curr
         {
             throw new UserDoesNotOwnItemException();
         }
-
         if (item.IsDone)
         {
             throw new ItemAlreadyDoneException();
